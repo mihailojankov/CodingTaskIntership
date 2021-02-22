@@ -36,7 +36,11 @@ public class JobCandidate extends AbstractModel{
 		this.dateOfBirth = dateOfBirth;
 		this.skillList = skillList;
 	}
-
+	
+	public JobCandidate() {
+		
+	}
+	
 	public String getFullName() {
 		return fullName;
 	}

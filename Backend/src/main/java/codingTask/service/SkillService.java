@@ -22,11 +22,12 @@ public class SkillService extends AbstractService<Skill, SkillRepository>{
 		
 		for(Skill s: listAll){
 			for(Skill sk: skills) {
-				if(s.getName().equals(sk)) {
+				if(s.getName().equals(sk.getName())) {
 					listMatching.addAll(s.getCandidates());
 				}
 			}
 		}
+		
 		
 		return listMatching;
 	}

@@ -20,6 +20,10 @@ public class Skill extends AbstractModel{
 		this.name = name;
 		this.candidates = candidates;
 	}
+	
+	public Skill() {
+		
+	}
 
 	public String getName() {
 		return name;

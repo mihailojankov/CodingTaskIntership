@@ -17,6 +17,7 @@ public class JobCandidateService extends AbstractService<JobCandidate, JobCandid
 	}
 	
 	public List<JobCandidate> findByFullName(String fullName){
+		System.out.println(fullName);
 		return repository.findCandidateByName(fullName);
 	}
 	
