@@ -17,7 +17,6 @@ import org.mockito.MockitoAnnotations;
 
 import codingTask.model.JobCandidate;
 import codingTask.model.Skill;
-import codingTask.repository.JobCandidateRepository;
 import codingTask.repository.SkillRepository;
 
 class SkillServiceTest {

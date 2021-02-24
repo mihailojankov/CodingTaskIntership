@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -102,7 +101,6 @@ class JobCandidateServiceTest {
 		assertEquals(2, pronadjeni.size());
 		assertEquals("Kandidat1", pronadjeni.get(0).getFullName());
 		assertEquals("Kandidat1", pronadjeni.get(1).getFullName());
-		
 		
 	}
 	
