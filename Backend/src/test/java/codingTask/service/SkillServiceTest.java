@@ -83,6 +83,7 @@ class SkillServiceTest {
 		verify(repo, times(1)).deleteById((long)1);
 	}
 	
+	
 	@Test
 	public void findBySkillsTest() {
 		ArrayList<Skill> list = new ArrayList<Skill>();
