@@ -56,17 +56,18 @@ public abstract class AbstractController<C extends AbstractModel, D extends Abst
 	public ResponseEntity<String> add(@RequestBody C body) {
 
 		service.save(body);
-		return new ResponseEntity<String>("Success", HttpStatus.CREATED);
+		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable("id") Long id) {
 		service.deleteById(id);
-		return new ResponseEntity<String>("Success", HttpStatus.OK);
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
 	@PutMapping(path = "")
 	public ResponseEntity<C> update(@RequestBody C body) {
+		System.out.println(body.getId());
 		C existing = service.findById(body.getId());
 		if (existing != null) {
 			existing = body;

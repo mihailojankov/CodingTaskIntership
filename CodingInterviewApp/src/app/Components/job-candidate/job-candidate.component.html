@@ -1,1 +1,162 @@
-<p>job-candidate works!</p>
+
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>Search by full name</mat-label>
+    <input type="text" [(ngModel)]="search" matInput (ngModelChange)="clearList()" (change)="searchCandidateByFullName()">
+  </mat-form-field>
+<table class="table table-dark">
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Full name</th>
+    <th>Birth date</th>
+    <th>Contact number</th>
+    <th>Email</th>
+  </tr>
+  </thead>
+  <tbody *ngIf="search == ''">
+  <tr *ngFor="let s of jobCandidateList">
+    <td>{{s.id}}</td>
+    <td>{{s.fullName}}</td>
+    <td>{{s.dateOfBirth}}</td>
+    <td>{{s.contactNumber}}</td>
+    <td>{{s.email}}</td>
+    <td><button mat-stroked-button color="warn" (click)="deleteCandidate(s.id)">Delete</button></td>
+    <td>
+      <div id="expansionPane">
+    <mat-expansion-panel  (afterExpand)="setCandidateForUpdate(s)">
+      <mat-expansion-panel-header>
+        Update
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <div class="example-container">
+          <h2>Skills obtained</h2>
+
+          <div
+            cdkDropList
+            #todoList="cdkDropList"
+            [cdkDropListData]="updatedSkills"
+            [cdkDropListConnectedTo]="[doneList]"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)">
+            <div class="example-box" *ngFor="let item of updatedSkills" cdkDrag>{{item.name}}</div>
+          </div>
+        </div>
+
+        <div class="example-container">
+          <h2>Available skills</h2>
+
+          <div
+            cdkDropList
+            #doneList="cdkDropList"
+            [cdkDropListData]="skillListForUpdate"
+            [cdkDropListConnectedTo]="[todoList]"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)">
+            <div class="example-box" *ngFor="let item of skillListForUpdate" cdkDrag>{{item.name}}</div>
+          </div>
+          <button (click)="updateCandidate()" mat-flat-button color="primary">Update candidate</button>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+  <tbody *ngIf="search != ''">
+  <tr *ngFor="let s of jobCandidateFullNameList">
+    <td>{{s.id}}</td>
+    <td>{{s.fullName}}</td>
+    <td>{{s.dateOfBirth}}</td>
+    <td>{{s.contactNumber}}</td>
+    <td>{{s.email}}</td>
+    <td><button mat-stroked-button color="warn" (click)="deleteCandidate(s.id)">Delete</button></td>
+  </tr>
+  </tbody>
+</table>
+</div>
+<div>
+<br>
+<div id="skillAddDiv">
+  <div class="example-container">
+    <h2>Available skills for search</h2>
+
+    <div
+      cdkDropList
+      #todoList1="cdkDropList"
+      [cdkDropListData]="skillList"
+      [cdkDropListConnectedTo]="[doneList1]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of skillList" cdkDrag>{{item.name}}</div>
+    </div>
+  </div>
+
+  <div class="example-container">
+    <h2>Chosen skills</h2>
+
+    <div
+      cdkDropList
+      #doneList1="cdkDropList"
+      [cdkDropListData]="searchBySkillList"
+      [cdkDropListConnectedTo]="[todoList1]"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let item of searchBySkillList" cdkDrag>{{item.name}}</div>
+    </div>
+    <button (click)="searchCandidateBySkills()" mat-flat-button color="primary">Search by skill</button>
+  </div>
+
+<div>
+  <h2>Add Candidate</h2>
+<form [formGroup]="addCandidateForm" (ngSubmit)="saveCandidate()">
+  <mat-form-field appearance="fill">
+    <mat-label>Add full name</mat-label>
+    <input formControlName="fullName" matInput [minlength]="3" required>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Add birth date</mat-label>
+    <input type="date" formControlName="dateOfBirth" matInput required>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Add contact number</mat-label>
+    <input formControlName="contactNumber" matInput [minlength]="3" required>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Add email</mat-label>
+    <input type="email" formControlName="email" matInput [minlength]="3" required>
+  </mat-form-field>
+  <br>
+  <button [disabled]="!addCandidateForm.valid" mat-flat-button color="primary" type="submit">Add candidate</button>
+</form>
+</div>
+</div>
+
+<table *ngIf="jobCandidateBySkillsList.length != 0" class="table table-dark">
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Full name</th>
+    <th>Birth date</th>
+    <th>Contact number</th>
+    <th>Email</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let s of jobCandidateBySkillsList">
+    <td>{{s.id}}</td>
+    <td>{{s.fullName}}</td>
+    <td>{{s.dateOfBirth}}</td>
+    <td>{{s.contactNumber}}</td>
+    <td>{{s.email}}</td>
+    <td><button mat-stroked-button color="warn" (click)="deleteCandidate(s.id)">Delete</button></td>
+  </tr>
+  </tbody>
+</table>
+
+
+
+</div>

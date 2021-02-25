@@ -1,6 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import { JobCandidate } from 'src/app/Interfaces/job-candidate';
 import { MainService } from 'src/app/main.service';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {Skill} from '../../Interfaces/skill';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {MatExpansionPanel} from '@angular/material/expansion';
+
 
 @Component({
   selector: 'app-job-candidate',
@@ -9,31 +15,106 @@ import { MainService } from 'src/app/main.service';
 })
 export class JobCandidateComponent implements OnInit {
 
-  constructor(private service:MainService) { }
+  constructor(private service: MainService, private builder: FormBuilder) { }
+  jobCandidateList: JobCandidate[] = [];
+  skillList: Skill[] = [];
+  searchBySkillList: Skill[] = [];
+  jobCandidateToBeUpdated: JobCandidate = {} as JobCandidate;
+  skillListForUpdate: Skill[] = [];
+  updatedSkills: Skill[] = [];
+  jobCandidateFullNameList: JobCandidate[] = [];
+  jobCandidateBySkillsList: JobCandidate[] = [];
 
-  jobCandidateList:JobCandidate[] = [];
-  jobCandidateById:JobCandidate = {} as JobCandidate;
-  jobCandidateToBeUpdated:JobCandidate = {} as JobCandidate;
-  jobCandidateFullNameList:JobCandidate[] = [];
+
+
+  addCandidateForm = this.builder.group({
+    id: 0,
+    fullName: '',
+    contactNumber: '',
+    email: '',
+    dateOfBirth: '',
+    skillList: []
+  }as JobCandidate);
+  search = '';
+
+
+
 
   ngOnInit(): void {
+    this.getAllCandidates();
+    this.getAllSkills();
   }
 
-  getAllCandidates(){
-    this.service.getAllCandidates().subscribe(res=>this.jobCandidateList = res);
+  getAllCandidates(): void{
+    this.service.getAllCandidates().subscribe(res => this.jobCandidateList = res);
   }
-  getCandidateById(id:number){
-    this.service.getCandidateById(id).subscribe(res=>this.jobCandidateById = res);
+
+  getAllSkills(): void{
+    this.service.getAllSkills().subscribe(res => {
+      this.skillList = res;
+    });
   }
-  updateCandidate(){
-    this.service.updateCandidate(this.jobCandidateToBeUpdated).subscribe(res=>{
+
+  setCandidateForUpdate(candidate: JobCandidate): void{
+    this.updatedSkills = [];
+    this.jobCandidateToBeUpdated = candidate;
+
+    if (candidate.skillList !== undefined){
+      this.updatedSkills = candidate.skillList;
+      this.skillListForUpdate = this.skillList.filter(o => !this.updatedSkills.find(o2 => o.id === o2.id));
+    }
+    else{
+      this.skillListForUpdate = [];
+      this.skillList.forEach(val => this.skillListForUpdate.push(Object.assign({}, val)));
+    }
+
+  }
+
+  updateCandidate(): void{
+    this.jobCandidateToBeUpdated.skillList = this.updatedSkills;
+    this.service.updateCandidate(this.jobCandidateToBeUpdated).subscribe(res => {
       this.getAllCandidates();
     });
   }
-  deleteCandidate(id:number){
-    this.service.deleteCandidate(id).subscribe(res=>{
+  saveCandidate(): void{
+    this.service.saveCandidate(this.addCandidateForm.value).subscribe((res => {
       this.getAllCandidates();
+    }));
+  }
+
+  deleteCandidate(id: number): void{
+    this.service.deleteCandidate(id).subscribe(res => {
+      this.getAllCandidates();
+      this.jobCandidateFullNameList = [];
+      this.jobCandidateBySkillsList = [];
     });
+  }
+
+  searchCandidateByFullName(): void{
+    if (this.search.length > 5) {
+      this.service.findCandidateByFullName(this.search).subscribe(res => this.jobCandidateFullNameList = res);
+    }
+  }
+  clearList(): void{
+    this.jobCandidateFullNameList = [];
+  }
+
+  searchCandidateBySkills(): void{
+    this.service.findCandidateBySkills(this.searchBySkillList).subscribe(res => {
+      this.jobCandidateBySkillsList = res;
+    });
+  }
+
+  drop(event: CdkDragDrop<Skill[]>): void {
+    this.jobCandidateBySkillsList = [];
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
   }
 
 }

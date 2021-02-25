@@ -11,47 +11,47 @@ export class MainService {
 
   constructor(private http: HttpClient) { }
 
-  jobCandidateUrl = "http://localhost:8080/jobCandidate";
-  skillUrl = "http://localhost:8080/skill";
+  jobCandidateUrl = 'http://localhost:8080/jobCandidate';
+  skillUrl = 'http://localhost:8080/skill';
 
-  //Candidate routes
-  getAllCandidates():Observable<JobCandidate[]>{
+  // Candidate routes
+  getAllCandidates(): Observable<JobCandidate[]>{
     return this.http.get<JobCandidate[]>(this.jobCandidateUrl);
   }
-  getCandidateById(id:number):Observable<JobCandidate>{
-    return this.http.get<JobCandidate>(this.jobCandidateUrl + "/" + id);
+  getCandidateById(id: number): Observable<JobCandidate>{
+    return this.http.get<JobCandidate>(this.jobCandidateUrl + '/' + id);
   }
-  saveCandidate(candidate:JobCandidate):Observable<JobCandidate>{
+  saveCandidate(candidate: JobCandidate): Observable<JobCandidate>{
     return this.http.post<JobCandidate>(this.jobCandidateUrl, candidate);
   }
-  updateCandidate(candidate:JobCandidate):Observable<JobCandidate>{
+  updateCandidate(candidate: JobCandidate): Observable<JobCandidate>{
     return this.http.put<JobCandidate>(this.jobCandidateUrl, candidate);
   }
-  deleteCandidate(id:number):Observable<JobCandidate>{
-    return this.http.delete<JobCandidate>(this.jobCandidateUrl + "/" + id);
+  deleteCandidate(id: number): Observable<JobCandidate>{
+    return this.http.delete<JobCandidate>(this.jobCandidateUrl + '/' + id);
   }
-  findCandidateByFullName(fullName:string):Observable<JobCandidate[]>{
-    return this.http.get<JobCandidate[]>(this.jobCandidateUrl + "/findByFullName");
+  findCandidateByFullName(fullName: string): Observable<JobCandidate[]>{
+    return this.http.post<JobCandidate[]>(this.jobCandidateUrl + '/findByFullName', fullName);
   }
-  findCandidateBySkills(skills:Skill[]):Observable<JobCandidate[]>{
-    return this.http.get<JobCandidate[]>(this.skillUrl + "/findBySkills");
+  findCandidateBySkills(skills: Skill[]): Observable<JobCandidate[]>{
+    return this.http.post<JobCandidate[]>(this.skillUrl + '/findBySkills', skills);
   }
 
-  //Skill routes
-  getAllSkills():Observable<Skill[]>{
+  // Skill routes
+  getAllSkills(): Observable<Skill[]>{
     return this.http.get<Skill[]>(this.skillUrl);
   }
-  getSkillById(id:number):Observable<Skill>{
-    return this.http.get<Skill>(this.skillUrl + "/" + id);
+  getSkillById(id: number): Observable<Skill>{
+    return this.http.get<Skill>(this.skillUrl + '/' + id);
   }
-  saveSkill(skill:Skill):Observable<Skill>{
+  saveSkill(skill: Skill): Observable<Skill>{
     return this.http.post<Skill>(this.skillUrl, skill);
   }
-  updateSkill(skill:Skill):Observable<Skill>{
+  updateSkill(skill: Skill): Observable<Skill>{
     return this.http.put<Skill>(this.skillUrl, skill);
   }
-  deleteSkill(id:number):Observable<Skill>{
-    return this.http.delete<Skill>(this.skillUrl + "/" + id);
+  deleteSkill(id: number): Observable<Skill>{
+    return this.http.delete<Skill>(this.skillUrl + '/' + id);
   }
 
 }

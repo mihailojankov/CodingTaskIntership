@@ -1,1 +1,29 @@
-<div *ngFor="let s of skillList">{{s.name}}</div>
+<div id="mainDiv">
+
+<table class="insideDiv" class="table table-dark">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let s of skillList">
+    <td>{{s.id}}</td>
+    <td>{{s.name}}</td>
+  </tr>
+  </tbody>
+</table>
+
+
+
+<form class="insideDiv" [formGroup]="addSkillForm" (ngSubmit)="saveSkill()">
+  <mat-form-field appearance="fill">
+    <mat-label>Add skill name</mat-label>
+    <input formControlName="name" matInput [minlength]="3" required>
+  </mat-form-field>
+  <br>
+  <button [disabled]="!addSkillForm.valid" mat-flat-button color="primary" type="submit">Add skill</button>
+</form>
+
+</div>

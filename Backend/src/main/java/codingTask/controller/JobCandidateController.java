@@ -6,11 +6,7 @@ import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import codingTask.DTO.JobCandidateDTO;
 import codingTask.model.JobCandidate;
@@ -25,8 +21,9 @@ public class JobCandidateController extends AbstractController<JobCandidate, Job
 		super(service, JobCandidateDTO.class);
 	}
 	
-	@GetMapping(path = "/findByFullName")
+	@PostMapping(path = "/findByFullName")
 	public ResponseEntity<ArrayList<JobCandidateDTO>> findByFullName(@RequestBody String fullName){
+		System.out.println(fullName);
 		ArrayList<JobCandidateDTO> matchingList = new ArrayList<JobCandidateDTO>();
 		
 		for(JobCandidate c: service.findByFullName(fullName)) {

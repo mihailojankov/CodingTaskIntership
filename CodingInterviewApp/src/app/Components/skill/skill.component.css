@@ -1,0 +1,16 @@
+table {
+  width: 20%;
+}
+#mainDiv {
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 20px;
+}
+.insideDiv{
+  float:right;
+  margin-left:10px;
+
+
+}
+

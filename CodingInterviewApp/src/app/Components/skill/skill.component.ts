@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Skill } from 'src/app/Interfaces/skill';
 import { MainService } from 'src/app/main.service';
+import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-skill',
@@ -10,31 +11,27 @@ import { MainService } from 'src/app/main.service';
 })
 export class SkillComponent implements OnInit {
 
-  constructor(private service:MainService) {
+  constructor(private service: MainService, private formBuilder: FormBuilder) {
   }
 
-  skillList:Skill[] = [];
-  skillById:Skill = {} as Skill;
-  skillToBeUpdated:Skill = {} as Skill;
+  skillList: Skill[] = [];
+  skillById: Skill = {} as Skill;
+  addSkillForm = this.formBuilder.group({
+    id: 0,
+    name: ''
+  }as Skill);
 
   ngOnInit(): void {
     this.getAllSkills();
   }
 
-  getAllSkills(){
-    this.service.getAllSkills().subscribe(res=>this.skillList = res);
+  getAllSkills(): void{
+    this.service.getAllSkills().subscribe(res => this.skillList = res);
   }
-  getSkillById(id:number){
-    this.service.getSkillById(id).subscribe(res=>this.skillById = res);
-  }
-  updateSkill(){
-    this.service.updateSkill(this.skillToBeUpdated).subscribe(res=>{
+  saveSkill(): void{
+    this.service.saveSkill(this.addSkillForm.value).subscribe(res => {
       this.getAllSkills();
-    });
-  }
-  deleteSkill(id:number){
-    this.service.deleteSkill(id).subscribe(res=>{
-      this.getAllSkills();
+      this.addSkillForm.reset();
     });
   }
 

@@ -6,10 +6,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import codingTask.DTO.JobCandidateDTO;
 import codingTask.DTO.SkillDTO;
@@ -26,14 +23,13 @@ public class SkillController extends AbstractController<Skill, SkillDTO, SkillSe
 		super(service, SkillDTO.class);
 	}
 	
-	@GetMapping(path = "/findBySkills")
+	@PostMapping (path = "/findBySkills")
 	public ResponseEntity<ArrayList<JobCandidateDTO>> findByFullName(@RequestBody List<Skill> skills){
 		ArrayList<JobCandidateDTO> matchingList = new ArrayList<JobCandidateDTO>();
 		
 		for(JobCandidate c: service.findBySkills(skills)) {
 			matchingList.add(mm.map(c, JobCandidateDTO.class));
 		}
-		
 		return new ResponseEntity<ArrayList<JobCandidateDTO>>(matchingList, HttpStatus.OK);
 	}
 

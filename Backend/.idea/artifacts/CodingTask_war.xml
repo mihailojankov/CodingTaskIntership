@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="CodingTask:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>CodingTask</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="CodingTask.war">
+      <element id="artifact" artifact-name="CodingTask:war exploded" />
+    </root>
+  </artifact>
+</component>
