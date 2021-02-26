@@ -1,11 +1,9 @@
-import {ChangeDetectorRef, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { JobCandidate } from 'src/app/Interfaces/job-candidate';
 import { MainService } from 'src/app/main.service';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {FormBuilder} from '@angular/forms';
 import {Skill} from '../../Interfaces/skill';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
-import {MatExpansionPanel} from '@angular/material/expansion';
 
 
 @Component({
@@ -18,6 +16,7 @@ export class JobCandidateComponent implements OnInit {
   constructor(private service: MainService, private builder: FormBuilder) { }
   jobCandidateList: JobCandidate[] = [];
   skillList: Skill[] = [];
+  skillListOrig: Skill[] = [];
   searchBySkillList: Skill[] = [];
   jobCandidateToBeUpdated: JobCandidate = {} as JobCandidate;
   skillListForUpdate: Skill[] = [];
@@ -52,6 +51,7 @@ export class JobCandidateComponent implements OnInit {
   getAllSkills(): void{
     this.service.getAllSkills().subscribe(res => {
       this.skillList = res;
+      this.skillList.forEach(val => this.skillListOrig.push(Object.assign({}, val)));
     });
   }
 
@@ -72,18 +72,19 @@ export class JobCandidateComponent implements OnInit {
 
   updateCandidate(): void{
     this.jobCandidateToBeUpdated.skillList = this.updatedSkills;
-    this.service.updateCandidate(this.jobCandidateToBeUpdated).subscribe(res => {
+    this.service.updateCandidate(this.jobCandidateToBeUpdated).subscribe(() => {
       this.getAllCandidates();
     });
   }
   saveCandidate(): void{
-    this.service.saveCandidate(this.addCandidateForm.value).subscribe((res => {
+    this.service.saveCandidate(this.addCandidateForm.value).subscribe((() => {
       this.getAllCandidates();
+      this.addCandidateForm.reset();
     }));
   }
 
   deleteCandidate(id: number): void{
-    this.service.deleteCandidate(id).subscribe(res => {
+    this.service.deleteCandidate(id).subscribe(() => {
       this.getAllCandidates();
       this.jobCandidateFullNameList = [];
       this.jobCandidateBySkillsList = [];
@@ -100,6 +101,7 @@ export class JobCandidateComponent implements OnInit {
   }
 
   searchCandidateBySkills(): void{
+    console.log(this.searchBySkillList);
     this.service.findCandidateBySkills(this.searchBySkillList).subscribe(res => {
       this.jobCandidateBySkillsList = res;
     });

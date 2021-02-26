@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Skill } from 'src/app/Interfaces/skill';
 import { MainService } from 'src/app/main.service';
 import {FormBuilder} from '@angular/forms';
@@ -29,7 +28,7 @@ export class SkillComponent implements OnInit {
     this.service.getAllSkills().subscribe(res => this.skillList = res);
   }
   saveSkill(): void{
-    this.service.saveSkill(this.addSkillForm.value).subscribe(res => {
+    this.service.saveSkill(this.addSkillForm.value).subscribe(() => {
       this.getAllSkills();
       this.addSkillForm.reset();
     });

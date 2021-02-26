@@ -24,7 +24,7 @@
     <td><button mat-stroked-button color="warn" (click)="deleteCandidate(s.id)">Delete</button></td>
     <td>
       <div id="expansionPane">
-    <mat-expansion-panel  (afterExpand)="setCandidateForUpdate(s)">
+    <mat-expansion-panel id="updateExpansionPanel"  (afterExpand)="setCandidateForUpdate(s)">
       <mat-expansion-panel-header>
         Update
       </mat-expansion-panel-header>
@@ -84,11 +84,11 @@
     <div
       cdkDropList
       #todoList1="cdkDropList"
-      [cdkDropListData]="skillList"
+      [cdkDropListData]="skillListOrig"
       [cdkDropListConnectedTo]="[doneList1]"
       class="example-list"
       (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of skillList" cdkDrag>{{item.name}}</div>
+      <div class="example-box" *ngFor="let item of skillListOrig" cdkDrag>{{item.name}}</div>
     </div>
   </div>
 
@@ -133,29 +133,28 @@
   <button [disabled]="!addCandidateForm.valid" mat-flat-button color="primary" type="submit">Add candidate</button>
 </form>
 </div>
+  <table *ngIf="jobCandidateBySkillsList.length != 0" class="table table-dark">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>Full name</th>
+      <th>Birth date</th>
+      <th>Contact number</th>
+      <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let s of jobCandidateBySkillsList">
+      <td>{{s.id}}</td>
+      <td>{{s.fullName}}</td>
+      <td>{{s.dateOfBirth}}</td>
+      <td>{{s.contactNumber}}</td>
+      <td>{{s.email}}</td>
+      <td><button mat-stroked-button color="warn" (click)="deleteCandidate(s.id)">Delete</button></td>
+    </tr>
+    </tbody>
+  </table>
 </div>
-
-<table *ngIf="jobCandidateBySkillsList.length != 0" class="table table-dark">
-  <thead>
-  <tr>
-    <th>Id</th>
-    <th>Full name</th>
-    <th>Birth date</th>
-    <th>Contact number</th>
-    <th>Email</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let s of jobCandidateBySkillsList">
-    <td>{{s.id}}</td>
-    <td>{{s.fullName}}</td>
-    <td>{{s.dateOfBirth}}</td>
-    <td>{{s.contactNumber}}</td>
-    <td>{{s.email}}</td>
-    <td><button mat-stroked-button color="warn" (click)="deleteCandidate(s.id)">Delete</button></td>
-  </tr>
-  </tbody>
-</table>
 
 
 

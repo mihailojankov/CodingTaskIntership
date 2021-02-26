@@ -9,7 +9,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Skill extends AbstractModel{
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	String name;
 	
 	@ManyToMany(mappedBy = "skillList")

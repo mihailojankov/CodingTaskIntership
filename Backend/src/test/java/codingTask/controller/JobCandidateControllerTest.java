@@ -116,8 +116,7 @@ class JobCandidateControllerTest extends AbstractControllerTest{
 		   
 		   int status = mvcResult.getResponse().getStatus();
 		   assertEquals(201, status);
-		   String content = mvcResult.getResponse().getContentAsString();
-		   assertEquals(content, "Success");
+
 	   }
 	   
 	   @Test
@@ -126,8 +125,6 @@ class JobCandidateControllerTest extends AbstractControllerTest{
 		   MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
 		   int status = mvcResult.getResponse().getStatus();
 		   assertEquals(200, status);
-		   String content = mvcResult.getResponse().getContentAsString();
-		   assertEquals(content, "Success");
 	   }
 	   
 	   
@@ -137,7 +134,7 @@ class JobCandidateControllerTest extends AbstractControllerTest{
 		   
 		      String uri = "/jobCandidate/findByFullName";
 		      String input = "Kandidat2";
-		      MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
+		      MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
 		         .contentType(MediaType.APPLICATION_JSON_VALUE).content(input))
 		    		  .andReturn();
 		      

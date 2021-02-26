@@ -47,10 +47,10 @@ public class SkillControllerTest extends AbstractControllerTest{
 	   
 	   @MockBean
 	   SkillService service;
-	   
+
 	   @MockBean
-	   SkillRepository repo;
-	   
+	   SkillRepository repository;
+
 	   List<Skill> baseList;
 	   
 	   @Before
@@ -105,8 +105,6 @@ public class SkillControllerTest extends AbstractControllerTest{
 		   
 		   int status = mvcResult.getResponse().getStatus();
 		   assertEquals(201, status);
-		   String content = mvcResult.getResponse().getContentAsString();
-		   assertEquals(content, "Success");
 	   }
 	   
 	   @Test
@@ -115,12 +113,10 @@ public class SkillControllerTest extends AbstractControllerTest{
 		   MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
 		   int status = mvcResult.getResponse().getStatus();
 		   assertEquals(200, status);
-		   String content = mvcResult.getResponse().getContentAsString();
-		   assertEquals(content, "Success");
 	   }
 	   
 	   @Test
-	   public void findBySkills() throws Exception{
+	   public void findBySkillsTest() throws Exception{
 			JobCandidate candidate1 = new JobCandidate("Kandidat1", "email1", "123123", LocalDate.now(), null);
 			JobCandidate candidate2 = new JobCandidate("Kandidat1", "email2", "123123", LocalDate.now(), null);
 			ArrayList<JobCandidate> candidateList = new ArrayList<>();
@@ -131,18 +127,17 @@ public class SkillControllerTest extends AbstractControllerTest{
 		      
 			newSkills.add(new Skill("Java", candidateList));
 			newSkills.add(new Skill("English", null));
-			
-			when(service.findBySkills(newSkills)).thenReturn(candidateList);
-			
+
 			String uri = "/skill/findBySkills";
-		    String input = super.mapToJson(baseList);
-		    MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
+		    String input = super.mapToJson(newSkills);
+		    MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
 		        .contentType(MediaType.APPLICATION_JSON_VALUE)
 		        .content(input))
 		    	.andReturn();
 		    
 		    int status = mvcResult.getResponse().getStatus();
 		    assertEquals(200, status);
+
 
 	   }
 }
